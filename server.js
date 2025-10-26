@@ -148,7 +148,7 @@ io.on("connection", (socket) => {
         }
 
         delete checkInTimeouts[newCheckIn.id]; //ลบ Timeout ออกจาก Object
-      }, 10000); // ⏳ 1 นาที
+      }, 60000); // ⏳ 1 นาที
     } catch (error) {
       console.error("❌ Error creating check-in:", error);
     }
