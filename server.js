@@ -7,15 +7,22 @@ const { readdirSync } = require("fs");
 const cors = require("cors");
 
 const app = express();
-
+const allowedOrigins = ["https://car-lastest.netlify.app"];
 // Middleware
 app.use(morgan("dev"));
 app.use(express.json({ limit: "20mb" }));
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"],
+}));
 
 //สร้าง HTTP Server และ WebSocket Server
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+  cors: { origin: allowedOrigins, methods: ["GET","POST"] },
+  transports: ["websocket", "polling"]
+});
 
 //เก็บสถานะออนไลน์ของคนขับ
 let onlineDrivers = new Set();
